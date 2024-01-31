@@ -1,17 +1,7 @@
 import Product from '@/components/product'
+import { fetchProducts, populateProducts } from './actions/kv'
 
-async function fetchProducts() {
-  try {
-    const res = await fetch('http://localhost:4000/products', {
-      // use  dynamic rendering
-      cache: 'no-store',
-    })
-    const data = await res.json()
-    return data
-  } catch (error) {
-    throw new Error('Could not fetch products')
-  }
-}
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const products = await fetchProducts()
