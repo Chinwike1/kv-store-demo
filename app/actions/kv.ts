@@ -1,18 +1,13 @@
 'use server'
 import { kv } from '@vercel/kv'
-import { type Product } from '@/components/product'
+import { revalidatePath } from 'next/cache'
+import { ProductType, products } from '@/data/products'
 
 export async function populateProducts() {
-  try {
-    const res = await fetch('http://localhost:4000/products')
-    const products = await res.json()
-
-    products.forEach((product: Product) => {
-      kv.hset(`product:${product.id}`, product)
-    })
-  } catch (error) {
-    throw new Error('An error occurred')
-  }
+  products.forEach((product: ProductType) => {
+    kv.hset(`product:${product.id}`, product)
+  })
+  revalidatePath('/')
 }
 
 export async function fetchProducts() {
@@ -24,15 +19,10 @@ export async function fetchProducts() {
       kv.hgetall('product:4'),
     ])
 
-    // if KV miss, fetch from DB
+    // KV miss
     if (products[0] === null) {
       console.log('KV miss')
-      const res = await fetch('http://localhost:4000/products', {
-        // use  dynamic rendering
-        cache: 'no-store',
-      })
-      const data = await res.json()
-      return data
+      // db query here
     }
 
     return products
@@ -41,9 +31,9 @@ export async function fetchProducts() {
   }
 }
 
-export async function addToWishlist(product: Product) {
+export async function addToWishlist(product: ProductType) {
   try {
-    await kv.zadd(`user:${3}:wishlist`, {
+    await kv.zadd(`user:${1}:wishlist`, {
       score: Date.now(),
       member: 'product:' + product.id,
     })
@@ -51,12 +41,14 @@ export async function addToWishlist(product: Product) {
     console.log(error)
     throw new Error('Could not add product')
   }
+
+  revalidatePath('/wishlist')
 }
 
 export async function fetchWishlist() {
   try {
-    const wishlist = await kv.zrange('user:3:wishlist', 0, -1)
-    const res = wishlist.map(async (item) => kv.hgetall(`${item}`))
+    const wishlist = await kv.zrange('user:1:wishlist', 0, -1)
+    const res = wishlist.map((item) => kv.hgetall(`${item}`))
     const products = await Promise.all(res)
 
     if (products.length === 0) {
