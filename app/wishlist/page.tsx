@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { fetchWishlist } from '../actions/kv'
 import Product from '@/components/product'
 import { Suspense } from 'react'
+import ClearWishlistButton from '@/components/clear-wishlist-button'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,6 +26,7 @@ export default async function Wishlist() {
           </Link>
         </p>
       )}
+      {wishlist.length > 0 && <ClearWishlistButton />}
     </div>
   )
 }

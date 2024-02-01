@@ -47,7 +47,7 @@ export async function addToWishlist(product: ProductType) {
 
 export async function fetchWishlist() {
   try {
-    const wishlist = await kv.zrange('user:1:wishlist', 0, -1)
+    const wishlist = await kv.zrange(`user:${1}:wishlist`, 0, -1)
     const res = wishlist.map((item) => kv.hgetall(`${item}`))
     const products = await Promise.all(res)
 
@@ -59,4 +59,14 @@ export async function fetchWishlist() {
   } catch (error) {
     throw new Error('Could not fetch wishlist')
   }
+}
+
+export async function clearWishlist() {
+  try {
+    await kv.del(`user:${1}:wishlist`)
+  } catch (error) {
+    throw new Error('Error clearing wishlist')
+  }
+
+  revalidatePath('/wishlist')
 }
