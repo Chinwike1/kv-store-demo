@@ -4,6 +4,7 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import { Analytics } from '@vercel/analytics'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Navbar />
         <div className="container mx-auto p-8">{children}</div>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
