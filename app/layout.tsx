@@ -4,7 +4,7 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
-import { Analytics } from '@vercel/analytics'
+import { Analytics } from '@vercel/analytics/react'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -24,7 +24,7 @@ export default function RootLayout({
         className={cn(
           poppins.className,
           process.env.NODE_ENV !== 'production' && 'debug-screens',
-          'mx-auto min-h-screen xl:mt-8 xl:w-2/4',
+          'mx-auto min-h-screen border-2 xl:mt-8 xl:w-2/4',
         )}
       >
         <Navbar />
