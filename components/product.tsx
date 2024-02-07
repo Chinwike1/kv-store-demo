@@ -20,7 +20,7 @@ export default function Product({ product }: { product: ProductType }) {
       </div>
       <div className="flex flex-1 flex-col justify-center gap-3 self-center">
         <h2 className="mt-4 text-xl font-bold">{product.name}</h2>
-        <span className="font-bold">{'$' + product.price}</span>
+        <span>{'$' + product.price}</span>
         {/* show this button only on / route. don't do this in prod */}
         {pathname === '/' && (
           <button
