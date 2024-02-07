@@ -2,6 +2,7 @@
 import { kv } from '@vercel/kv'
 import { revalidatePath } from 'next/cache'
 import { ProductType, products } from '@/data/products'
+import { redirect } from 'next/navigation'
 
 export async function populateProducts() {
   products.forEach((product: ProductType) => {
@@ -43,6 +44,7 @@ export async function addToWishlist(product: ProductType) {
   }
 
   revalidatePath('/wishlist')
+  redirect('/wishlist')
 }
 
 export async function fetchWishlist() {
