@@ -24,7 +24,7 @@ export default function RootLayout({
         className={cn(
           poppins.className,
           process.env.NODE_ENV !== 'production' && 'debug-screens',
-          'mx-auto min-h-screen border-2 xl:mt-8 xl:w-2/4',
+          'mx-auto min-h-screen bg-[#2c0e41] xl:mt-8 xl:w-2/4',
         )}
       >
         <Navbar />

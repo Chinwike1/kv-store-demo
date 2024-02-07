@@ -10,12 +10,12 @@ export default async function Home() {
   console.log(products)
 
   return (
-    <main>
+    <main className="text-white">
       <h2 className="my-4 text-2xl font-semibold">Products</h2>
       {products[0] !== null ? (
         products.map((product: any) => (
-          <Suspense fallback={null}>
-            <Product key={product.id} product={product} />
+          <Suspense key={product.id} fallback={null}>
+            <Product product={product} />
           </Suspense>
         ))
       ) : (
